@@ -1,0 +1,13 @@
+ulimit -a
+ulimit -c 512
+# ./a.out
+# segmentation fault (core dump)
+# gdb a.out -c core
+Program terminated with singal 11, Segmentataion fault.
+New process 6647]
+#0 0x08048384 in sub() at foo.c:7
+7       printf("int is %d",*p);
+(gdb) bt
+#0 0x08048384 in sub() at foo.c:7
+#1 0x080483a4 in main() at foo.c:11
+(gdb)

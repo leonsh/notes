@@ -1,0 +1,66 @@
+===001===
+:%s/\.\/DRIVER.*\n//g
+:n,$s/vivian/sky/gc
+
+===002===
+%
+. #replay last command
+
+===003===
+How to indent code
+gg
+=
+G
+
+===004===
+# search/location and open file
+vim +/processCtc EQM/eqm_event.c
+
+===005===
+# jump to variable defunct location
+gd 
+
+===006===
+# jump to privous tagged place
+'' 
+
+===007===
+# jump to privous edit point
+`.
+
+===008===
+# jump to privous edit line
+'.
+
+===009===
+# repeat operate "stdio.h" --> "#include stdio.h"
+qa	(start record)
+^	(jump to head of line)
+i\#include "<ESC>	(insert #include " before line)
+$	(jump to end of line)
+a"<ESC>	(append " to the end of line)
+j	(jump to the next line)
+q	(stop record)
+
+@a	(repeat a, or 3@a repeat 3 times of a)
+
+===010===
+:colorscheme darkblue
+http://www.vi-improved.org/color_sampler_pack/
+
+===011===
+t{char}
+# Till before {char}
+
+f{char}
+# jump to the {char}
+
+
+===========================================sed===========================================
+sed 's/aa/bb/g' filename
+sed '/two/ s/1/2' filename
+sed '/two/ s/1/2; /three s/1/3' filename
+sed -e '/two/ s/1/2' -e '/three s/1/3' filename
+sed 's/^192.168.0.1/&localhost/' filename
+sed -n 's/\(love\)able/\1rs/p' filename
+hexdump minicom.log | sed 's/ \([0-9a-fA-F]\{2\}\)\([0-9a-fA-F]\{2\}\)/ \2\1/g'

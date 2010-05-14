@@ -1,0 +1,14 @@
+# cscope and ctags command helps
+find ./ -name *.h -o *.c > cscope.files
+cscope -Rbq
+ctags -R
+vi:cscope add cscope.out
+vi:set tags=tags
+vi:cscope find f xxx (查询文件)
+(i 查找包含该头文件的.c)
+(c 查找调用该函数的位置)
+(g 查找指定标识符定义的位置)
+(s 超找指定标识符使用的位置)
+(t 查找文本字符串)
+(e 正则表达式)
+(d 查找该函数调用了那些函数)

@@ -1,0 +1,19 @@
+config/platform/mpc8313erdb/下存放了ltib的配置文件，以及kernel的配置文件
+main.lkc (mconf,defconfig为默认配置)为ltib的打包配置环境，主要的配置项有
+  1.CONFIG_PKG_..为包配置项(对应于dist/lfs-5.1/common/pkg文件中的包配置)
+     并且其值=rpm配置文件名称
+  2.CONFIG_... 配置为各个包的配置，具体对应各个包的编译选项
+  3.CROSS_COMPILE配置为交叉环境配置文件
+  4.CONFIG_PLATFORM_COMMENT,CONFIG_PLATFORM是为了生成目标板选择
+     config/main.lkc配置而设置的，其中CONFIG_PLATFORM必须于目标
+     板的目录名字一致
+  5.CONFIG_LINTARCH为编译kernel而设置的，选择相应arch/ppc等相关CPU体系目录
+
+======================================================================
+=========================添加一个新的包===============================
+1.放置pkg_name.tar.gz(bz2)到freescale/pkgs/pkg_path目录下
+2.添加配置到dist/lfs-5.1/common/pkg_map文件(PKG_PKGNAME=pkg_path)
+3.配置ltib->.config文件中CONFIG_PKG_PKGNAME=string,其中string为pkg_path目录下
+    对应的spec.in(rpm配置文件)
+4.spec.in文件要对应上pkgs/目录下相应的压缩包
+5.ltib指定特定包使用的是pkg_path

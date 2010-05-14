@@ -1,0 +1,11 @@
+diff --exclude CVS -uNr folder1 folder2 > pathname
+diff -y -W 30 defconfig defconfig.dev
+
+-u, --unified[=NUM], -U NUM
+-N, --new-file Treat absent files as empty
+-r, --recursive
+-y, --side-by-side
+-W NUM, --width=NUM
+
+cd /pwd
+patch -p1 < pwddiff.patch

@@ -1,0 +1,7 @@
+mysql -uroot -p
+mysql> use ems;
+mysql> create/drop database ems;
+mysql> create database ems DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+mysql> caeate database ems DEFAULT CHARACTER SET gbk COLLATE gbk_chinese_ci;
+
+mysql> select * from MO where dn like '%OltBoard:6/OltPonPort:4/ONU:1/OnuBoard:0/OnuEthernetPort:2%;

@@ -1,0 +1,177 @@
+git-clone git://git.denx.de/linux-2.6-denx.git linux-2.6-denx
+git-checkout 
+git-status
+
+=============================
+git-init-db
+git-add xxx
+git-status
+git-commit -m ""
+git-diff
+"Untracked files"		>> new file, need git-add
+"Changes to be committed"	>> git-add but not commit
+"Changes to be updated"		>> file changed, need git-commit
+
+ppc@power:~/CODE$ mkdir gittutorcn
+ppc@power:~/CODE$ cd gittutorcn/
+ppc@power:~/CODE/gittutorcn$ ls
+ppc@power:~/CODE/gittutorcn$ git-init-db 
+Initialized empty Git repository in /home/ppc/CODE/gittutorcn/.git/
+ppc@power:~/CODE/gittutorcn$ cd .git/
+ppc@power:~/CODE/gittutorcn/.git$ ls
+branches  config  description  HEAD  hooks  info  objects  refs
+
+ppc@power:~/CODE/gittutorcn/.git$ cd ..
+ppc@power:~/CODE/gittutorcn$ echo "Hello world" > hello
+ppc@power:~/CODE/gittutorcn$ echo "Homey" > example
+ppc@power:~/CODE/gittutorcn$ ls
+example  hello
+ppc@power:~/CODE/gittutorcn$ git-add hello example
+ppc@power:~/CODE/gittutorcn$ cd .git/
+ppc@power:~/CODE/gittutorcn/.git$ ls
+branches  config  description  HEAD  hooks  index  info  objects  refs
+
+ppc@power:~/CODE/gittutorcn$ git-status 
+# On branch master
+#
+# Initial commit
+#
+# Changes to be committed:
+#   (use "git rm --cached <file>..." to unstage)
+#
+#       new file: example
+#       new file: hello
+#
+ppc@power:~/CODE/gittutorcn$ git-commit -m "Initial commit of gittutor reposistory"
+Created initial commit aa22b4b: Initial commit of gittutor reposistory
+ 2 files changed, 2 insertions(+), 0 deletions(-)
+ create mode 100644 example
+ create mode 100644 hello
+ppc@power:~/CODE/gittutorcn$ git-status 
+# On branch master
+nothing to commit (working directory clean)
+ppc@power:~/CODE/gittutorcn$ ls
+ppc@power:~/CODE/gittutorcn/.git$ ls
+branches  COMMIT_EDITMSG  config  description  HEAD  hooks  index  info  logs  objects  refs
+ppc@power:~/CODE/gittutorcn$ git-diff
+ppc@power:~/CODE/gittutorcn$ echo "It's a new day of git" >> hello
+ppc@power:~/CODE/gittutorcn$ git-diff
+diff --git a/hello b/hello
+index 802992c..15eb1b0 100644
+--- a/hello
++++ b/hello
+@@ -1 +1,2 @@
+ Hello world
++It's a new day of git
+ppc@power:~/CODE/gittutorcn$ git-update-index hello 
+ppc@power:~/CODE/gittutorcn$ git-commit -m "new day of git"
+Created commit e50f334: new day of git
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+ppc@power:~/CODE/gittutorcn$
+
+==================index,file,tree==================
+git-cat-file -t SHA1
+git-cat-file commit SHA1
+git-cat-file bolb SHA1
+ls .git/objects/ (contains commit tree blob)
+cat ./git/refs/heads/master
+
+==================checkout=========================
+git-checkout -b robin //create and checkout the new branch
+git-branch robin
+git-checkout master   //switch to other branch(cannot switch when has file need commit)
+git-branch -D robin   //delete a branch
+
+ppc@power:~/CODE/gittutorcn$ git-checkout -b robin 
+Switched to a new branch "robin"
+ppc@power:~/CODE/gittutorcn$
+ppc@power:~/CODE/gittutorcn$ ls .git/refs/heads
+master  robin
+ppc@power:~/CODE/gittutorcn$ git-checkout master
+Switched to branch "master"
+ppc@power:~/CODE/gittutorcn$ git-branch -D robin
+Deleted branch robin.
+ppc@power:~/CODE/gittutorcn$ 
+ppc@power:~/CODE/gittutorcn$ git-status 
+# On branch master
+nothing to commit (working directory clean)
+ppc@power:~/CODE/gittutorcn$
+ppc@power:~/CODE/gittutorcn$ git-checkout -b robin
+Switched to a new branch "robin"
+ppc@power:~/CODE/gittutorcn$ git-branch
+  master
+* robin
+ppc@power:~/CODE/gittutorcn$ cat .git/HEAD 
+ref: refs/heads/robin
+ppc@power:~/CODE/gittutorcn$ echo "Work, work, workd" >> hello
+ppc@power:~/CODE/gittutorcn$ git-commit -m "Some workd" -i hello
+Created commit c93a77d: Some workd
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+ppc@power:~/CODE/gittutorcn$ git-status
+# On branch robin
+nothing to commit (working directory clean)
+ppc@power:~/CODE/gittutorcn$ git-checkout master
+Switched to branch "master"
+ppc@power:~/CODE/gittutorcn$ echo "Play, play, play" >> hello
+ppc@power:~/CODE/gittutorcn$ echo "Lots of fun" >> example
+ppc@power:~/CODE/gittutorcn$ git-commit -m "Some fun" -i hello example
+Created commit 0e99ea3: Some fun
+ 2 files changed, 2 insertions(+), 0 deletions(-)
+ppc@power:~/CODE/gittutorcn$ 
+ppc@power:~/CODE/gittutorcn$ git-show-branch 
+* [master] Some fun
+ ! [robin] Some workd
+--
+*  [master] Some fun
+ + [robin] Some workd
+*+ [master^] new day of git
+ppc@power:~/CODE/gittutorcn$ git-diff master^ robin
+diff --git a/hello b/hello
+index 15eb1b0..e62cad3 100644
+--- a/hello
++++ b/hello
+@@ -1,2 +1,3 @@
+ Hello world
+ It's a new day of git
++Work, work, workd
+ppc@power:~/CODE/gittutorcn$
+ppc@power:~/CODE/gittutorcn$
+ppc@power:~/CODE/gittutorcn$
+ppc@power:~/CODE/gittutorcn$ git-status 
+# On branch master
+nothing to commit (working directory clean)
+ppc@power:~/CODE/gittutorcn$ 
+ppc@power:~/CODE/gittutorcn$ git-whatchanged 
+commit 0e99ea365a331f76660c472034600d04dd5a1e67
+Author: ppc <ppc@power.(none)>
+Date:   Wed Apr 1 22:01:11 2009 +0800
+
+    Some fun
+
+:100644 100644 d8fcd31... 6ebb9eb... M  example
+:100644 100644 15eb1b0... 0ddb405... M  hello
+
+commit e50f334425d6bc82740dafb8c5034201f439b569
+Author: ppc <ppc@power.(none)>
+Date:   Wed Apr 1 21:55:54 2009 +0800
+
+    new day of git
+
+:100644 100644 802992c... 15eb1b0... M  hello
+
+commit aa22b4ba6007e10076bc25e59ebf2665747b3e27
+Author: ppc <ppc@power.(none)>
+Date:   Wed Apr 1 21:54:07 2009 +0800
+
+    Initial commit of gittutor reposistory
+
+:000000 100644 0000000... d8fcd31... A  example
+:000000 100644 0000000... 802992c... A  hello
+ppc@power:~/CODE/gittutorcn$
+ppc@power:~/CODE/gittutorcn$ git-status
+# On branch master
+nothing to commit (working directory clean)
+ppc@power:~/CODE/gittutorcn$
+
+=================git-reset=========================
+

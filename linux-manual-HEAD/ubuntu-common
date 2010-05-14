@@ -1,0 +1,95 @@
+dejavusansyuanti
+Monaco_Linux
+
+firefox plugins
+UmMHT(save page as singal a mht file)
+====================================
+
+mount -t loop xxx.iso /mnt/cdrom/
+====================================
+
+find ./ .#* | xargs rm -f
+dpkg -i xxx.deb
+
+===========openssh-server===========
+apt-get install openssh-server
+useradd -m -s /bin/bash USERNAME
+passwd USERNAME
+/etc/init.d/ssh restart
+userdel -r USERNAME
+
+===========vsftpd===========
+apt-get install vsftpd
+/etc/vsftpd.conf -> enable_local=yes
+/etc/init.d/vsftpd restart
+
+===========tftpd===========
+apt-get install tftp tftpd
+apt-get install openbsd-inetd
+vi /etc/inetd.conf
+tftp dgram udp wait nobody /usr/bin/tcpd /usr/sbin/in.tftpd /tftpboot
+cd /
+mkdir tftpboot
+chown nobody:nogroup tftpboot 
+/etc/init.d/openbsd-inetd restart
+
+==========dict=============
+apt-get install dict-stardic
+sudo gnome-directory
+
+==========firefox3.6=======
+gpg --keyserver keyserver.ubuntu.com --recv 632D16BB0C713DA6
+gpg --export --armor 632D16BB0C713DA6 | sudo apt-key add -
+
+deb http://ppa.launchpad.net/fta/ppa/ubuntu jaunty main
+deb-src http://ppa.launchpad.net/fta/ppa/ubuntu jaunty main
+sudo apt-get update
+sudo apt-get install firefox-3.5
+
+==========arp==============
+echo "192.168.2.1 00:13:60:B4:88:80" > /etc/ethers
+echo "arp -f" > /etc/init.d>rc.local
+
+==========main=============
+apt-get install thunderbird
+cd ~/.mozilla-thunderbird/xxx/Main/Local\ Folder/
+Sent Inbox Drafts Thash
+
+=========kermit============
+kermit, c, ctrl+\ c
+set line /dev/ttyS0
+set speed 19200
+set carrier-watch off
+set handshake none
+set flow-control none
+robust
+set file type binary
+set file names literal
+set receive packet-length 1000
+set send packet-length 1000
+set window-size 5
+
+send /home/appImage
+run + exit (shell)
+log session + close session + reply session.log (session log)
+
+show key :
+Key code \127 ==> Character: \127
+set key \127 \8 (change backspace to send BS:ASCII 8)
+========screen=============
+screen
+Ctrl+a c --> creat a new shell
+ctrl+a n/p --> move to next shell
+ctrl+a H --> log shell to file(ctrl+a H stop log)
+screen -ls (list all session)
+screen -R xxxxx (reconnect to Detached session)
+screen -dR xxxxx (reconnect to atached session)
+----file(~/.screenrc)--------
+#log on
+logfile '%t--%Y-%m-%d--%c:%s.txt'
+#logtstamp on
+-----------------------------
+use screen -t name -L (auto save logfile name--2010-01-01--15:59:01)
+
+========gnome-menu-cannot-dispaly=========
+rm ~/.configs/menus/*
