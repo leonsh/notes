@@ -45,6 +45,13 @@ deb http://ppa.launchpad.net/fta/ppa/ubuntu jaunty main
 deb-src http://ppa.launchpad.net/fta/ppa/ubuntu jaunty main
 sudo apt-get update
 sudo apt-get install firefox-3.5
+==========samba=============
+sudo mount -t cifs //192.168.1.80/zl /opt/ocean/sftp80 -o usern=zl,pass=111111,iocharset=zh_CN.utf8
+
+===========转换文件字符集================
+iconv -f 18030 -t utf8 file1 > file2
+tofordos
+fromdos -d file.txt
 
 ==========arp==============
 echo "192.168.2.1 00:13:60:B4:88:80" > /etc/ethers

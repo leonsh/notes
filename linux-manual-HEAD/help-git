@@ -1,5 +1,14 @@
-git-clone git://git.denx.de/linux-2.6-denx.git linux-2.6-denx
-git-checkout 
+git 用户配置文件~HOME/.gitconfig, 全局配置文件/etc/gitconfig
+=======================================
+git commit
+第一行写简要信息
+空行
+写具体的提交信息.
+$ git commit --amend (可以修改最后一次提交的信息)
+
+# 从git服务器获取库
+$ git clone git://git.denx.de/linux-2.6-denx.git linux-2.6-denx
+$ git clone git://git.denx.de/u-boot.git u-boot.git
 git-status
 
 =============================
@@ -77,10 +86,17 @@ ls .git/objects/ (contains commit tree blob)
 cat ./git/refs/heads/master
 
 ==================checkout=========================
-git-checkout -b robin //create and checkout the new branch
-git-branch robin
-git-checkout master   //switch to other branch(cannot switch when has file need commit)
-git-branch -D robin   //delete a branch
+$ git-branch				查看分支情况
+$ cat .git/HEAD			查看当前分支(.git/refs/heads分支信息存放路径)
+$ git-checkout master
+$ git-checkout -b robin		以master为基础创建一个新的分支，-b表示立即checkout该分支
+$ git checkout -b rob taga	以taga为基础创建一个新的分支，-b表示立即checkout该分支
+$ git-branch robin			创建一个分支但不切换到该分支，需要checkout才能切换到该分支
+$ git-checkout master		切换到其他分支(当有文件需要提交时不允许切换)
+$ git-branch -D robin		删除指定的一个分支
+$ git-show-branch			查看分支树
+$ git whatchanged -p branch1..branch2 查看分支区别
+
 
 ppc@power:~/CODE/gittutorcn$ git-checkout -b robin 
 Switched to a new branch "robin"
@@ -174,4 +190,49 @@ nothing to commit (working directory clean)
 ppc@power:~/CODE/gittutorcn$
 
 =================git-reset=========================
+
+
+=================git-useage========================
+
+================git tag============================
+# git tag v1.4
+# git tag -a v1.4 (with annotated，包含注释信息的tag)
+# git tag -s v1.4 (with GPT，包含注释信息以及GPG信息)
+$ git-cat-file .git/refs/tags/TAG
+$ git 
+
+diff --exclude=CVS --exclude=*.o --exclude=build_8500 --exclude=.git* --exclude=*.map --exclude=*.dep --exclude=*.lib -uNr 8500.git/ 20090616_R1032/
+================git merge=========================
+git merge experiment (合并分支，冲突文件需要自己手工修复)
+
+merge例子：
+1.删除无效文件
+rm -rf DRIVER/dx253
+find -name *~ | xargs rm
+find -name *.bak |xargs rm
+find -name .#* |xargs rm
+make clean
+2.比较是否有不同的文件
+diff --exclude=CVS --exclude=*.o --exclude=build_8500 --exclude=.git* --exclude=*.map --exclude=*.dep --exclude=*.lib -qNr 8500.git/ 20100409_R1052/
+3.生成patch文件
+diff --exclude=CVS --exclude=*.[oa] --exclude=build_8500 --exclude=.git* --exclude=*.map --exclude=*.dep --exclude=*.lib -uNr 8500.git/ 20100409_R1052/
+4.将patch应用的git最新代码中
+patch -p1 < ../52.patch
+5.提交到git库并且生成一个annoted tag
+git add .
+git commit
+git tag -a 02.01.10.52
+===============放弃当前的修改=====================
+git checkout HEAD file
+git reset --hard HEAD
+===============rebase==========================
+1.利用rebase，可以将master上的最新代码merge到分支上，并且使分支的根节点重新定位到master的最新提交.
+2.修改以前提交过的commit信息.
+	git rebase bbc643cd^ –interactive
+		通过删除行来移去提交
+		通过为行重新排序来为提交重新排序
+		用“edit”来替换“pick”来标志一个提交可修改
+		用“squash”来替换“pick”来将一个提交和前一个合并
+	git commit --amend
+	git rebase --continue
 
