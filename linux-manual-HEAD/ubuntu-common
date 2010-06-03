@@ -100,3 +100,9 @@ use screen -t name -L (auto save logfile name--2010-01-01--15:59:01)
 
 ========gnome-menu-cannot-dispaly=========
 rm ~/.configs/menus/*
+
+========中文编码支持================
+sudo vi /var/lib/locales/supported.d/local
+	zh_CN.GBK GBK
+	zh_CN.GB18030 GB18030
+sudo dkpg-reconfigure --force locales

@@ -236,3 +236,24 @@ git reset --hard HEAD
 	git commit --amend
 	git rebase --continue
 
+===============提交到服务器(push)==================
+git fetch	//跟新本地代码到本地（需要merge才能合并到本地代码中）
+git merge	//合并更新后的代码到本地
+git pull	//这条命令是git fetch/git merge的一个组合
+git diff --cache	//查看已修改的内容
+git push REMOTENAME LOCALBRANCHNAME:REMOTEBRANCHNAME //提交本地的branch到远程的branch
+git push origin test:aaa
+
+===============与SVN合并使用=====================
+1.git svn init -s svn://192.168.1.40
+2.git svn fetch
+
+===============remote============================
+1.git remove -v			//列出所有远程库的名字(-v显示地址)
+2.git remote add shortname url	//添加一个远程库并且用shortname代表其地址
+3.git fetch shortname		//从远程库更新最新代码到本地,然后后就可以合并到本地的分支上了
+4.git push origin master	//将本地的master提交到服务器上去
+5.git push origin test:aaa	//将本地的test分之提交到服务器的aaa分支上
+5.git remote show origin	//查看远程库的状态，包括是否有更新，是否有废弃/新增/更新的分支
+6.git remote rename old new	//重命名远程库的名字
+7.git remote rm showname	//删除一个远程库
