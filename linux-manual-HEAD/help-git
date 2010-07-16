@@ -222,9 +222,11 @@ patch -p1 < ../52.patch
 git add .
 git commit
 git tag -a 02.01.10.52
+
 ===============放弃当前的修改=====================
 git checkout HEAD file
 git reset --hard HEAD
+
 ===============rebase==========================
 1.利用rebase，可以将master上的最新代码merge到分支上，并且使分支的根节点重新定位到master的最新提交.
 2.修改以前提交过的commit信息.
@@ -248,6 +250,13 @@ git push origin test:aaa
 1.git svn init -s svn://192.168.1.40
 2.git svn fetch
 
+===============与CVS合并使用=====================
+0.安装cvsps(根据不同条件来产生patch文件), git-cvs
+1.先cvs login登录到CVS服务器
+2.git cvsimport -v -d :pserver:lzhang@192.168.1.50:/root 8500_CTC_2_1 -A /home/ocean/user.txt
+增量获取CVS修改的patch
+3.git cvsimport -v -d :pserver:lzhang@192.168.1.50:/root -o master 8500_CTC_2_1 -A /home/ocean/user.txt
+
 ===============remote============================
 1.git remove -v			//列出所有远程库的名字(-v显示地址)
 2.git remote add shortname url	//添加一个远程库并且用shortname代表其地址
@@ -257,3 +266,7 @@ git push origin test:aaa
 5.git remote show origin	//查看远程库的状态，包括是否有更新，是否有废弃/新增/更新的分支
 6.git remote rename old new	//重命名远程库的名字
 7.git remote rm showname	//删除一个远程库
+
+=============从git库中删除文件==================
+1.git filter-branch --index-filter \
+		'git rm --cached --ignore-unmatch filename' -- bba32dc039..
