@@ -106,3 +106,17 @@ sudo vi /var/lib/locales/supported.d/local
 	zh_CN.GBK GBK
 	zh_CN.GB18030 GB18030
 sudo dkpg-reconfigure --force locales
+
+========autossh=====================
+ssh-keygen -t rsa 生成公钥与密钥,将id_rsa.pub公钥内容拷贝到服务器的.ssh/authorized_keys文件中
+scp .ssh/id_rsa.pub usr@192.168.10.184:~/
+ssh usr@192.168.10.184
+cat id_rsa.pub >> .ssh/authorized_keys
+
+========ccrytp======================
+use AES2 to encrypt file
+
+========samba=======================
+adduser mykal
+passwd
+smbpasswd -a mykal

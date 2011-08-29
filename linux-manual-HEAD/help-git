@@ -1,4 +1,4 @@
-git 用户配置文件~HOME/.gitconfig, 全局配置文件/etc/gitconfig
+ git 用户配置文件~HOME/.gitconfig, 全局配置文件/etc/gitconfig
 =======================================
 git commit
 第一行写简要信息
@@ -237,6 +237,9 @@ git reset --hard HEAD
 		用“squash”来替换“pick”来将一个提交和前一个合并
 	git commit --amend
 	git rebase --continue
+3.合并相同的commit,去除空的commit
+git filter-branch --prune-empty
+git rebase --autosquash
 
 ===============提交到服务器(push)==================
 git fetch	//跟新本地代码到本地（需要merge才能合并到本地代码中）
@@ -253,9 +256,15 @@ git push origin test:aaa
 ===============与CVS合并使用=====================
 0.安装cvsps(根据不同条件来产生patch文件), git-cvs
 1.先cvs login登录到CVS服务器
-2.git cvsimport -v -d :pserver:lzhang@192.168.1.50:/root 8500_CTC_2_1 -A /home/ocean/user.txt
+2.git cvsimport -v -d :pserver:lzhang@192.168.1.50:/root 8500_CTC_2_1 -A /home/e300/CODE/user.txt
+#将分支以master形式导入,增量更新时先创建分支，然后再次执行下面的命令.
+2.1.git cvsimport -v -d :pserver:lzhang@192.168.1.50:/root -o b090324_8500_ctczb 8500 -A /home/e300/CODE/user.txt
 增量获取CVS修改的patch
-3.git cvsimport -v -d :pserver:lzhang@192.168.1.50:/root -o master 8500_CTC_2_1 -A /home/ocean/user.txt
+3.git cvsimport -v -d :pserver:lzhang@192.168.1.50:/root -o master 8500_CTC_2_1 -A /home/e300/CODE/user.txt
+3.1.git cvsimport -v -d :pserver:lzhang@192.168.1.50:/root -o b090324_8500_ctczb 8500 -A /home/e300/CODE/user.txt -S DRIVER,SNMP,CLI
+3.2.git cvsimport -v -d :pserver:lzhang@192.168.1.50:/root -o b090324_8500_ctczb 8500 -A /home/e300/CODE/user.txt -S DRIVER,SNMP,CLI -P "-d '2010/08/11 00:00:00'"
+4.git rebase 时加入--committer-date-is-author-date, --ignore-date选项
+
 
 ===============remote============================
 1.git remove -v			//列出所有远程库的名字(-v显示地址)
@@ -268,5 +277,15 @@ git push origin test:aaa
 7.git remote rm showname	//删除一个远程库
 
 =============从git库中删除文件==================
-1.git filter-branch --index-filter \
-		'git rm --cached --ignore-unmatch filename' -- bba32dc039..
+1.git filter-branch --index-filter 'git rm --cached --ignore-unmatch filename' -- bba32dc039..
+2.git ls-remote .
+3.git update-ref -d refs/original/refs/heads/master
+4.rm -rf .git/logs/
+5.git reflog --all
+6.git prune
+7.git gc --prune=now
+
+=============常用===============================
+1.git rev-list --all |wc -l
+2.git ls-remote .
+3.git update-ref -d refs/original/refs/heads/master
